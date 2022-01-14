@@ -1,6 +1,6 @@
 script_name("Custom Logos")
 script_authors("hijuce")
-script_version("0.4")
+script_version("0.4.1")
 require "lib.moonloader"
 
 local encoding = require 'encoding'
