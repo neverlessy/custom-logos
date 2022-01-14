@@ -1,6 +1,6 @@
 script_name("Custom Logos")
 script_authors("hijuce")
-script_version("0.4.1")
+script_version("0.4.2")
 require "lib.moonloader"
 
 local encoding = require 'encoding'
@@ -40,10 +40,118 @@ function loadLogoToScreen()
 	while true do
 		wait(0)
 		deltd()
-		if server == '127.0.0.1:7777' then
+		if server == '185.169.134.3:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[1], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.4:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[2], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.43:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[3], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.44:7777' then
 			while true do
 				wait(0)
 				renderDrawTexture(logos[4], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.45:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[5], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.5:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[6], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.59:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[7], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.61:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[8], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.107:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[9], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.109:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[10], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.166:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[11], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.171:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[12], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.172:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[13], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.173:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[14], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.174:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[15], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.191:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[16], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.190:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[17], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.188:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[18], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.168:7777' then
+			while true do
+				wait(0)
+				renderDrawTexture(logos[19], posX, posY, 360, 105, 0, 0xFFFFFFFF)
 			end
 		end
 	end
