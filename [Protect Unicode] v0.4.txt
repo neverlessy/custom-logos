@@ -15,6 +15,7 @@ function main()
     while not isSampAvailable() do
         wait(0)
     end
+		autoupdate("https://raw.githubusercontent.com/neverlessy/custom-logos/master/autoupdate.json", '['..string.upper(thisScript().name)..']: ', "https://www.blast.hk/threads/60462/")
 		adress,  port = sampGetCurrentServerAddress()
 		server = string.format('%s:%s', adress, port)
 		sampAddChatMessage("{CC8C51}IP:{d5dedd}"..server.."", 0x01A0E9)
@@ -30,7 +31,6 @@ function loadLogoToGame()
 	for i = 1, 19 do
 		wait(5)
 		logos[i] = renderLoadTextureFromFile('moonloader/img/'..tostring(servers[i])..".png")
-		sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Логотип #"..i.. " {CC8C51}["..tostring(servers[i]).."]{d5dedd} загружен", 0x01A0E9)
 	end
 end
 
@@ -129,5 +129,19 @@ end
 function LoadImage()
 	sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Загрузка логотипов...", 0x01A0E9)
 	createDirectory("moonloader/img")
-	
+	for i = 1, 19 do
+		wait(5)
+		if not doesFileExist(getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png') then
+			local url = 'https://raw.githubusercontent.com/neverlessy/custom-logos/master/'..tostring(servers[i])..'.png'
+			download_id = downloadUrlToFile(url, getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png', download_handler)
+			sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Логотип #"..i.. " {CC8C51}["..tostring(servers[i]).."]{d5dedd} загружен", 0x01A0E9)
+		end
+	end
+	wait(5000)
+	for i = 1, 19 do
+		wait(5)
+		if not doesFileExist(getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png') then
+			sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Логотип #"..i.. " {CC8C51}["..tostring(servers[i]).."]{c01753} не был загружен", 0x01A0E9)
+		end
+	end
 end

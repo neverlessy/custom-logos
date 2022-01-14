@@ -15,10 +15,11 @@ function main()
     while not isSampAvailable() do
         wait(0)
     end
+		autoupdate("https://raw.githubusercontent.com/neverlessy/custom-logos/master/autoupdate.json", '['..string.upper(thisScript().name)..']: ', "https://www.blast.hk/threads/60462/")
 		adress,  port = sampGetCurrentServerAddress()
 		server = string.format('%s:%s', adress, port)
 		sampAddChatMessage("{CC8C51}IP:{d5dedd}"..server.."", 0x01A0E9)
-		sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Скрипт активирован. Автор: {CC8C51}hijuce.", 0x01A0E9)
+		sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}РЎРєСЂРёРїС‚ Р°РєС‚РёРІРёСЂРѕРІР°РЅ. РђРІС‚РѕСЂ: {CC8C51}hijuce.", 0x01A0E9)
 		sampRegisterChatCommand("logos", ScriptInfo)
 		LoadImage()
 		loadLogoToGame()
@@ -30,7 +31,6 @@ function loadLogoToGame()
 	for i = 1, 19 do
 		wait(5)
 		logos[i] = renderLoadTextureFromFile('moonloader/img/'..tostring(servers[i])..".png")
-		sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Логотип #"..i.. " {CC8C51}["..tostring(servers[i]).."]{d5dedd} загружен", 0x01A0E9)
 	end
 end
 
@@ -57,7 +57,7 @@ function deltd()
 end
 
 function ScriptInfo()
-	sampShowDialog(1999, "{CC8C51}[Custom Logos] {ffffff}> Информация", "{CC8C51}Custom Logos {FFFFFF}- это LUA скрипт на собственные логотипы для популярных серверов\n{CC8C51}Версия скрипта {FFFFFF}: {ffffff}0.3{FFFFFF}\n\nНа данный момент нарисованы логотипы для таких серверов, как\n\n{ffffff}> {CC8C51}Arizona \n{549f68}Phoenix {CC8C51}{CC8C51}|{549f68}{549f68} Saint-Rose {CC8C51}{CC8C51}|{549f68}{549f68} Tucson {CC8C51}{CC8C51}|{549f68}{549f68} Scottdale {CC8C51}|{549f68} Chandler {CC8C51}|{549f68} Brainburg {CC8C51}|{549f68} Mesa {CC8C51}|{549f68} Red-Rock {CC8C51}|{549f68} Yuma\nSurprice {CC8C51}|{549f68} Prescott {CC8C51}|{549f68} Glendale {CC8C51}|{549f68} Kingman {CC8C51}|{549f68} Winslow {CC8C51}|{549f68} Payson {CC8C51}|{549f68} Gilbert {CC8C51}|{549f68} Show-Low {CC8C51}|{549f68} Casa Grande {CC8C51}|{549f68} Page","Закрыть")
+	sampShowDialog(1999, "{CC8C51}[Custom Logos] {ffffff}> РРЅС„РѕСЂРјР°С†РёСЏ", "{CC8C51}Custom Logos {FFFFFF}- СЌС‚Рѕ LUA СЃРєСЂРёРїС‚ РЅР° СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ Р»РѕРіРѕС‚РёРїС‹ РґР»СЏ РїРѕРїСѓР»СЏСЂРЅС‹С… СЃРµСЂРІРµСЂРѕРІ\n{CC8C51}Р’РµСЂСЃРёСЏ СЃРєСЂРёРїС‚Р° {FFFFFF}: {ffffff}0.3{FFFFFF}\n\nРќР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅР°СЂРёСЃРѕРІР°РЅС‹ Р»РѕРіРѕС‚РёРїС‹ РґР»СЏ С‚Р°РєРёС… СЃРµСЂРІРµСЂРѕРІ, РєР°Рє\n\n{ffffff}> {CC8C51}Arizona \n{549f68}Phoenix {CC8C51}{CC8C51}|{549f68}{549f68} Saint-Rose {CC8C51}{CC8C51}|{549f68}{549f68} Tucson {CC8C51}{CC8C51}|{549f68}{549f68} Scottdale {CC8C51}|{549f68} Chandler {CC8C51}|{549f68} Brainburg {CC8C51}|{549f68} Mesa {CC8C51}|{549f68} Red-Rock {CC8C51}|{549f68} Yuma\nSurprice {CC8C51}|{549f68} Prescott {CC8C51}|{549f68} Glendale {CC8C51}|{549f68} Kingman {CC8C51}|{549f68} Winslow {CC8C51}|{549f68} Payson {CC8C51}|{549f68} Gilbert {CC8C51}|{549f68} Show-Low {CC8C51}|{549f68} Casa Grande {CC8C51}|{549f68} Page","Р—Р°РєСЂС‹С‚СЊ")
 end
 
 function autoupdate(json_url, prefix, url)
@@ -80,21 +80,21 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage((prefix..'Обнаружено обновление. Текущая версия:{629eee} '..thisScript().version..' {CC8C51}|{d5dedd} Новая версия:{629eee} '..updateversion), color)
+                sampAddChatMessage((prefix..'РћР±РЅР°СЂСѓР¶РµРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ. РўРµРєСѓС‰Р°СЏ РІРµСЂСЃРёСЏ:{629eee} '..thisScript().version..' {CC8C51}|{d5dedd} РќРѕРІР°СЏ РІРµСЂСЃРёСЏ:{629eee} '..updateversion), color)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
                     if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                      print(string.format('Загружено %d из %d.', p13, p23))
+                      print(string.format('Р—Р°РіСЂСѓР¶РµРЅРѕ %d РёР· %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-											print('Загрузка обновления завершена.')
-											sampAddChatMessage((prefix..'Обновление завершено!'), color)
+											print('Р—Р°РіСЂСѓР·РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ Р·Р°РІРµСЂС€РµРЅР°.')
+											sampAddChatMessage((prefix..'РћР±РЅРѕРІР»РµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ!'), color)
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        sampAddChatMessage((prefix..'РћР±РЅРѕРІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ РЅРµСѓРґР°С‡РЅРѕ. Р—Р°РїСѓСЃРєР°СЋ СѓСЃС‚Р°СЂРµРІС€СѓСЋ РІРµСЂСЃРёСЋ..'), color)
                         update = false
                       end
                     end
@@ -104,11 +104,11 @@ function autoupdate(json_url, prefix, url)
               )
             else
               update = false
-              print('v'..thisScript().version..': Обновление не требуется.')
+              print('v'..thisScript().version..': РћР±РЅРѕРІР»РµРЅРёРµ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.')
             end
           end
         else
-          print('v'..thisScript().version..': Не могу проверить обновление. Попробуйте позже или проверьте наличие на '..url)
+          print('v'..thisScript().version..': РќРµ РјРѕРіСѓ РїСЂРѕРІРµСЂРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РїРѕР·Р¶Рµ РёР»Рё РїСЂРѕРІРµСЂСЊС‚Рµ РЅР°Р»РёС‡РёРµ РЅР° '..url)
           update = false
         end
       end
@@ -121,20 +121,27 @@ function download_handler(id, status, p1, p2)
   if stop_downloading then
     stop_downloading = false
     download_id = nil
-    print('Загрузка отменена.')
+    print('Р—Р°РіСЂСѓР·РєР° РѕС‚РјРµРЅРµРЅР°.')
     return false
   end
 end
 
 function LoadImage()
-	sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Загрузка логотипов...", 0x01A0E9)
+	sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Р—Р°РіСЂСѓР·РєР° Р»РѕРіРѕС‚РёРїРѕРІ...", 0x01A0E9)
 	createDirectory("moonloader/img")
 	for i = 1, 19 do
 		wait(5)
 		if not doesFileExist(getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png') then
-			local url = 'https://raw.githubusercontent.com/RebookH/samp_customlogos/master/'..tostring(servers[i])..'.png'
-			download_id = downloadUrlToFile(url, phoenix_path, download_handler)
+			local url = 'https://raw.githubusercontent.com/neverlessy/custom-logos/master/'..tostring(servers[i])..'.png'
+			download_id = downloadUrlToFile(url, getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png', download_handler)
+			sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Р›РѕРіРѕС‚РёРї #"..i.. " {CC8C51}["..tostring(servers[i]).."]{d5dedd} Р·Р°РіСЂСѓР¶РµРЅ", 0x01A0E9)
 		end
-		sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Логотип #"..i.. " {CC8C51}["..tostring(servers[i]).."]{d5dedd} успешно загружен", 0x01A0E9)
+	end
+	wait(5000)
+	for i = 1, 19 do
+		wait(5)
+		if not doesFileExist(getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png') then
+			sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd} Р›РѕРіРѕС‚РёРї #"..i.. " {CC8C51}["..tostring(servers[i]).."]{c01753} РЅРµ Р±С‹Р» Р·Р°РіСЂСѓР¶РµРЅ", 0x01A0E9)
+		end
 	end
 end
