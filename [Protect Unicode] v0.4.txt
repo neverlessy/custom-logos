@@ -1,6 +1,6 @@
 script_name("Custom Logos")
-script_authors("hijuce")
-script_version("0.4")
+script_authors("neverlessy")
+script_version("0.4.4")
 require "lib.moonloader"
 
 local encoding = require 'encoding'
@@ -18,7 +18,6 @@ function main()
 		autoupdate("https://raw.githubusercontent.com/neverlessy/custom-logos/master/autoupdate.json", '['..string.upper(thisScript().name)..']: ', "https://www.blast.hk/threads/60462/")
 		adress,  port = sampGetCurrentServerAddress()
 		server = string.format('%s:%s', adress, port)
-		sampAddChatMessage("{CC8C51}IP:{d5dedd}"..server.."", 0x01A0E9)
 		sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Скрипт активирован. Автор: {CC8C51}hijuce.", 0x01A0E9)
 		sampRegisterChatCommand("logos", ScriptInfo)
 		LoadImage()
@@ -40,20 +39,146 @@ function loadLogoToScreen()
 	local posY = (userscreenY - userscreenY) + 1
 	while true do
 		wait(0)
-		deltd()
-		if server == '127.0.0.1:7777' then
+		if server == '185.169.134.3:7777' then
 			while true do
 				wait(0)
+				deltd()
+				renderDrawTexture(logos[1], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.4:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[2], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.43:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[3], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.44:7777' then
+			while true do
+				wait(0)
+				deltd()
 				renderDrawTexture(logos[4], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.45:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[5], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.5:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[6], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.59:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[7], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.61:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[8], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.107:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[9], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.109:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[10], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.166:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[11], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.171:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[12], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.172:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[13], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.173:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[14], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '185.169.134.174:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[15], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.191:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[16], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.190:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[17], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.188:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[18], posX, posY, 360, 105, 0, 0xFFFFFFFF)
+			end
+		end
+		if server == '80.66.82.168:7777' then
+			while true do
+				wait(0)
+				deltd()
+				renderDrawTexture(logos[19], posX, posY, 360, 105, 0, 0xFFFFFFFF)
 			end
 		end
 	end
 end
 
 function deltd()
-	for i = 536, 551 do
-		sampTextdrawDelete(i)
-	end
+		sampTextdrawDelete(532)
+		sampTextdrawDelete(533)
+		sampTextdrawDelete(534)
 end
 
 function ScriptInfo()
@@ -128,12 +253,12 @@ end
 
 function LoadImage()
 	sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Загрузка логотипов...", 0x01A0E9)
-	createDirectory("moonloader/img")
+	createDirectory("moonloader/resource/CustomLogos/img")
 	for i = 1, 19 do
 		wait(5)
-		if not doesFileExist(getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png') then
-			local url = 'https://raw.githubusercontent.com/neverlessy/custom-logos/master/'..tostring(servers[i])..'.png'
-			download_id = downloadUrlToFile(url, getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png', download_handler)
+		if not doesFileExist(getWorkingDirectory() .. '/resource/CustomLogos/img/'..tostring(servers[i])..'.png') then
+			local url = 'https://raw.githubusercontent.com/neverlessy/custom-logos/master/img/'..tostring(servers[i])..'.png'
+			download_id = downloadUrlToFile(url, getWorkingDirectory() .. '/resource/CustomLogos/img/'..tostring(servers[i])..'.png', download_handler)
 		end
 	end
 end

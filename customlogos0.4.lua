@@ -1,6 +1,6 @@
 script_name("Custom Logos")
-script_authors("hijuce")
-script_version("0.4.3")
+script_authors("neverlessy")
+script_version("0.4.4")
 require "lib.moonloader"
 
 local encoding = require 'encoding'
@@ -176,9 +176,9 @@ function loadLogoToScreen()
 end
 
 function deltd()
-		sampTextdrawDelete(434)
-		sampTextdrawDelete(435)
-		sampTextdrawDelete(436)
+		sampTextdrawDelete(532)
+		sampTextdrawDelete(533)
+		sampTextdrawDelete(534)
 end
 
 function ScriptInfo()
@@ -253,12 +253,12 @@ end
 
 function LoadImage()
 	sampAddChatMessage("{CC8C51}[Custom Logos] {d5dedd}Загрузка логотипов...", 0x01A0E9)
-	createDirectory("moonloader/img")
+	createDirectory("moonloader/resource/CustomLogos/img")
 	for i = 1, 19 do
 		wait(5)
-		if not doesFileExist(getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png') then
-			local url = 'https://raw.githubusercontent.com/neverlessy/custom-logos/master/'..tostring(servers[i])..'.png'
-			download_id = downloadUrlToFile(url, getWorkingDirectory() .. '/img/'..tostring(servers[i])..'.png', download_handler)
+		if not doesFileExist(getWorkingDirectory() .. '/resource/CustomLogos/img/'..tostring(servers[i])..'.png') then
+			local url = 'https://raw.githubusercontent.com/neverlessy/custom-logos/master/img/'..tostring(servers[i])..'.png'
+			download_id = downloadUrlToFile(url, getWorkingDirectory() .. '/resource/CustomLogos/img/'..tostring(servers[i])..'.png', download_handler)
 		end
 	end
 end
