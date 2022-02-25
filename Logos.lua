@@ -108,6 +108,7 @@ function main()
         unloadScript("Сервер не поддерживается")
         enableLogoBool[0] = false
     end
+    downloadImage()
     addEventHandler("onWindowMessage", function(msg, wparam, lparam)
 		if msg == wm.WM_KEYDOWN or msg == wm.WM_SYSKEYDOWN then
 				if wparam == 27 then
