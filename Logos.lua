@@ -170,6 +170,7 @@ end
 
 function autoupdate(json_url, tag, url)
     local dlstatus = require('moonloader').download_status
+    local tag = '{d12155}[Custom Logos]{ababab} '
     local json = getWorkingDirectory() .. '\\'..thisScript().name..'-version.json'
     if doesFileExist(json) then os.remove(json) end
     downloadUrlToFile(json_url, json,
