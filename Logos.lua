@@ -1,8 +1,9 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 --Обращение к s?x?? - Что такое Украина? Где это? Покажи на карте!
+
 script_name("Custom Logos")
 script_authors("neverlessy")
-script_version("0.5.1")
+script_version("0.5.2")
 
 local sampev = require 'samp.events'
 local imgui = require 'mimgui'
@@ -12,13 +13,20 @@ local wm = require("windows.message")
 
 local new = imgui.new
 local settingsWindow = new.bool()
+local arrayIndexer = 1
+local enableWarBool = new.bool()
 local enableLogoBool = new.bool(false)
+local enable = new.bool()
 local editPosition = new.bool(false)
 local sizeX, sizeY = getScreenResolution()
 local posX = new.int(1)
 local posY = new.int(1)
 local crop = new.float(1.0)
 local serverName
+local textdrawsIdsTemp = {}
+local textdrawsXTemp = {}
+local textdrawsYTemp = {}
+local warIds = {}
 local logo
 local style = 1
 local logoTransparrent = new.int(255)
@@ -27,7 +35,8 @@ local tag = '{d12155}[Custom Logos]{ababab} '
 local mainIni = inicfg.load({
       settings =
       {
-          enable = true,
+          enableLogoBool = true,
+          enableWarBool = false,
           logoTransparrent = 55,
           ticksUpdate = 1,
           posX = 500,
@@ -52,15 +61,26 @@ local settings = imgui.OnFrame(
     function() return settingsWindow[0] end,
     function(player)
         imgui.SetNextWindowPos(imgui.ImVec2(sizeX / 2, sizeY / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-        imgui.SetNextWindowSize(imgui.ImVec2(370, 180), imgui.Cond.FirstUseEver)
-        imgui.Begin("Кикнули с беседы за мои взгляды. Луганская Народная Республика и Россия победит в этой войне.", settingsWindow, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoTitleBar)
-        imgui.Checkbox(u8'Включить скрипт', enableLogoBool) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение логотипа")
+        imgui.SetNextWindowSize(imgui.ImVec2(370, 200), imgui.Cond.FirstUseEver)
+        imgui.Begin("Кикнули с беседы за мои взгляды. ЛДНР и Россия победит в этой войне.", settingsWindow, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoTitleBar)
+        if imgui.Checkbox(u8'Включить скрипт', enable) then
+          if enable[0] then
+            for i = 1, #textdrawsIdsTemp do
+              sampTextdrawSetPos(textdrawsIdsTemp[i], 9999.1, 0)
+            end
+          else
+            for i = 1, #textdrawsIdsTemp do
+              sampTextdrawSetPos(textdrawsIdsTemp[i], textdrawsXTemp[i], textdrawsYTemp[i])
+            end
+          end
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение логотипа")
+        imgui.Checkbox(u8'Лицемерие от мира', enableWarBool) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение флагов Страны, где правят нацисты и России. После включения необходимо переподключиться к серверу")
         imgui.SliderInt(u8"Прозрачность", logoTransparrent, 0, 255) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Изменяет прозрачность логотипа")
         imgui.SliderInt(u8"Рендер", ticksUpdate, 1, 30) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Задержка рендера логотипа. Чем больше Значение - тем выше производительность скрипта. Изменяйте значения до тех пор, пока число не будет максимальным, при это логотип не будет мерцать.")
         imgui.SliderFloat(u8"Пропорции", crop, 0.1, 10.0) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Пропорциональное увеличение или понижение размера логотипа")
         if imgui.Button(u8"Позиция", imgui.ImVec2(240, 30)) then
             editPosition[0]= true
-            sampAddChatMessage(tag..'Чтобы сохранить позицию, нажмите {d12155}пробел', -1)
+            sampAddChatMessage(tag..'Чтобы сохранить позицию, нажмите {d12155}Пробел', -1)
         end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Изменяет позицию логотипа")
         if imgui.Button(u8"Сохранить", imgui.ImVec2(240, 30)) then
             iniMain.settings.posX = posX[0]
@@ -68,6 +88,8 @@ local settings = imgui.OnFrame(
             iniMain.settings.crop = crop[0]
             iniMain.settings.logoTransparrent = logoTransparrent[0]
             iniMain.settings.ticksUpdate = ticksUpdate[0]
+            iniMain.settings.enableWarBool = enableWarBool[0]
+            iniMain.settings.enable = enable[0]
            if inicfg.save(iniMain, iniDirectory) then
                 sampAddChatMessage(tag..'Настройки успешно {65c29e}сохранены', -1)
            else
@@ -93,20 +115,22 @@ function main()
     posY[0] = mainIni.settings.posY
     crop[0] = iniMain.settings.crop
     ticksUpdate[0] = iniMain.settings.ticksUpdate
+    enableWarBool[0] = iniMain.settings.enableWarBool
+    enable[0] = iniMain.settings.enable
     while not sampIsPlayerConnected() do wait(0) end
     if sampGetCurrentServerName():match("Arizona RP | (%u%w+-%w+)") then
         serverName = string.lower(sampGetCurrentServerName():match("Arizona RP | (%u%w+-%w+)"))
         logo = renderLoadTextureFromFile(getWorkingDirectory().."/resource/CustomLogos/img/"..style.."/"..serverName..".png")
         sampAddChatMessage(tag..'Устанавливаю логотип сервера{d12155} '..sampGetCurrentServerName():match("Arizona RP | (%u%w+-%w+)"), -1)
-        enableLogoBool[0] = true
+        enable[0] = true
     elseif sampGetCurrentServerName():match("Arizona RP | (%u%w+)") then
         serverName = string.lower(sampGetCurrentServerName():match("Arizona RP | (%u%w+)"))
         logo = renderLoadTextureFromFile(getWorkingDirectory().."/resource/CustomLogos/img/"..style.."/"..serverName..".png")
         sampAddChatMessage(tag..'Устанавливаю логотип сервера{d12155} '..sampGetCurrentServerName():match("Arizona RP | (%u%w+)"), -1)
-        enableLogoBool[0] = true
+        enable[0] = true
     else
         unloadScript("Сервер не поддерживается")
-        enableLogoBool[0] = false
+        enable[0] = false
     end
     downloadImage()
     addEventHandler("onWindowMessage", function(msg, wparam, lparam)
@@ -120,7 +144,7 @@ function main()
 		end
 	end)
     while true do wait(ticksUpdate[0])
-        if enableLogoBool[0] then
+        if enable[0] then
             if editPosition[0] then
                 posX[0], posY[0] = getCursorPos()
                 renderDrawTexture(logo, posX[0] - (180 * crop[0]), posY[0] - (60 * crop[0]), 360.0 * crop[0], 105.0 * crop[0], 0, string.format("0x%xFFFFFF", logoTransparrent[0]))
@@ -140,9 +164,21 @@ end
 function sampev.onShowTextDraw(id, data)
     pX = math.modf(data.position.x)
     pY = math.modf(data.position.y)
-    if (pX == 550 and pY == 1) or (pX == 565 and pY == 6) or (pX == 563 and pY == 14) then
-        return false
+    if (pX == 550 and pY == 1) or (pX == 565 and pY == 6) or (pX == 563 and pY == 14) or (pX == 526 and pY == 4) or (pX == 539 and pY == 7) or (pX == 539 and pY == 15) then
+      textdrawsIdsTemp[arrayIndexer] = id
+      textdrawsXTemp[arrayIndexer] = data.position.x
+      textdrawsYTemp[arrayIndexer] = data.position.y
+      arrayIndexer = arrayIndexer + 1
+      if enable[0] then
+          data.position.x = 99999.1
+      end
     end
+    if (pX == 606 and pY == 3) or (pX == 609 and pY == 6) or (pX == 600 and pY == 13) or (pX == 616 and pY == 21) or (pX == 619 and pY == 16) or (pX == 619 and pY == 13) or (pX == 616 and pY == 7) or (pX == 611 and pY == 8) or (pX == 600 and pY == 16) then
+      if enableWarBool[0] == false then
+        return false
+      end
+    end
+    return { id, data }
 end
 
 function unloadScript(reason)
