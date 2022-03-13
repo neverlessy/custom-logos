@@ -2,7 +2,7 @@
 
 script_name("Custom Logos")
 script_authors("neverlessy")
-script_version("0.5.4")
+script_version("0.5.3")
 
 local sampev = require 'samp.events'
 local imgui = require 'mimgui'
@@ -50,8 +50,8 @@ local settings = imgui.OnFrame(
     function(player)
         imgui.SetNextWindowPos(imgui.ImVec2(sizeX / 2, sizeY / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
         imgui.SetNextWindowSize(imgui.ImVec2(370, 200), imgui.Cond.FirstUseEver)
-        imgui.Begin("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.", settingsWindow, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoTitleBar)
-        if imgui.Checkbox(u8'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ', enable) then
+        imgui.Begin("Кикнули с беседы за мои взгляды. ЛДНР и Россия победит в этой войне.", settingsWindow, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoTitleBar)
+        if imgui.Checkbox(u8'Включить скрипт', enable) then
           if enable[0] then
             for i = 1, #textdrawsIdsTemp do
               sampTextdrawSetPos(textdrawsIdsTemp[i], 9999.1, 0)
@@ -61,16 +61,16 @@ local settings = imgui.OnFrame(
               sampTextdrawSetPos(textdrawsIdsTemp[i], textdrawsXTemp[i], textdrawsYTemp[i])
             end
           end
-        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-        imgui.Checkbox(u8'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ', enableWarBool) imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-        imgui.SliderInt(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", logoTransparrent, 0, 255) imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-        imgui.SliderInt(u8"пїЅпїЅпїЅпїЅпїЅпїЅ", ticksUpdate, 1, 30) imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
-        imgui.SliderFloat(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", crop, 0.1, 10.0) imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-        if imgui.Button(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", imgui.ImVec2(240, 30)) then
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение логотипа")
+        imgui.Checkbox(u8'Флаги стран', enableWarBool) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение флагов Страны, где правят нацисты и России. После включения необходимо переподключиться к серверу")
+        imgui.SliderInt(u8"Прозрачность", logoTransparrent, 0, 255) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Изменяет прозрачность логотипа")
+        imgui.SliderInt(u8"Рендер", ticksUpdate, 1, 30) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Задержка рендера логотипа. Чем больше Значение - тем выше производительность скрипта. Изменяйте значения до тех пор, пока число не будет максимальным, при это логотип не будет мерцать.")
+        imgui.SliderFloat(u8"Пропорции", crop, 0.1, 10.0) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Пропорциональное увеличение или понижение размера логотипа")
+        if imgui.Button(u8"Позиция", imgui.ImVec2(240, 30)) then
             editPosition[0]= true
-            sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {d12155}пїЅпїЅпїЅпїЅпїЅпїЅ', -1)
-        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-        if imgui.Button(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", imgui.ImVec2(240, 30)) then
+            sampAddChatMessage(tag..'Чтобы сохранить позицию, нажмите {d12155}Пробел', -1)
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Изменяет позицию логотипа")
+        if imgui.Button(u8"Сохранить", imgui.ImVec2(240, 30)) then
             iniMain.settings.posX = posX[0]
             iniMain.settings.posY = posY[0]
             iniMain.settings.crop = crop[0]
@@ -79,11 +79,11 @@ local settings = imgui.OnFrame(
             iniMain.settings.enableWarBool = enableWarBool[0]
             iniMain.settings.enable = enable[0]
            if inicfg.save(iniMain, iniDirectory) then
-                sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {65c29e}пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ', -1)
+                sampAddChatMessage(tag..'Настройки успешно {65c29e}сохранены', -1)
            else
-                sampAddChatMessage(tag..'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {d12155}пїЅпїЅпїЅпїЅпїЅпїЅ', -1)
+                sampAddChatMessage(tag..'При сохранении произошла {d12155}ошибка', -1)
            end
-        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Сохранить текущие настройки")
         imgui.End()
         player.HideCursor = false
     end
@@ -92,8 +92,8 @@ local settings = imgui.OnFrame(
 function main()
     if not isSampfuncsLoaded() or not isSampLoaded() then return end
     while not isSampAvailable() do wait(0) end
-    sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅ: {d12155}neverlessy', -1)
-    sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: {d12155}'..thisScript().version, -1)
+    sampAddChatMessage(tag..'Автор: {d12155}neverlessy', -1)
+    sampAddChatMessage(tag..'Текущая версия: {d12155}'..thisScript().version, -1)
     autoupdate("https://raw.githubusercontent.com/neverlessy/custom-logos/master/autoupdate.json", '['..string.upper(thisScript().name)..']: ', "https://www.blast.hk/threads/60462/")
     sampRegisterChatCommand('logo', function()
         settingsWindow[0] = not settingsWindow[0]
@@ -111,7 +111,7 @@ function main()
         serverName = serverList[i]
         logo = renderLoadTextureFromFile(getWorkingDirectory().."/resource/CustomLogos/img/"..style.."/"..serverName..".png")
         enable[0] = true
-        sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ{d12155} '..string.upper(serverList[i]), -1)
+        sampAddChatMessage(tag..'Устанавливаю логотип сервера{d12155} '..string.upper(serverList[i]), -1)
       end
     end
     downloadImage()
@@ -134,7 +134,7 @@ function main()
                     editPosition[0] = false
                     posX[0] = posX[0] - (180 * crop[0])
                     posY[0] = posY[0] - (60 * crop[0])
-                    sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {65c29e}пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ', -1)
+                    sampAddChatMessage(tag..'Позиция успешно {65c29e}сохранена', -1)
                 end
             else
                 renderDrawTexture(logo, posX[0], posY[0], 360.0 * crop[0], 105.0 * crop[0], 0, string.format("0x%xFFFFFF", logoTransparrent[0]))
@@ -165,7 +165,7 @@ end
 
 function unloadScript(reason)
     if reason ~= nil then
-        sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:{d12155} '..reason, -1)
+        sampAddChatMessage(tag..'Скрипт завершил свою работу по причине:{d12155} '..reason, -1)
         thisScript():unload()
     end
 end
@@ -181,8 +181,8 @@ function download_handler(id, status, p1, p2)
     if stop_downloading then
       stop_downloading = false
       download_id = nil
-      print('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.')
-      sampAddChatMessage(tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ{d12155} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' -1)
+      print('Загрузка отменена.')
+      sampAddChatMessage(tag..'Загрузка{d12155} отменена' -1)
       return false
     end
 end
@@ -207,21 +207,21 @@ function autoupdate(json_url, tag, url)
                 lua_thread.create(function(tag)
                   local dlstatus = require('moonloader').download_status
                   local color = -1
-                  sampAddChatMessage((tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:{d12155} '..thisScript().version..' {ababab}| пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:{65c29e} '..updateversion), color)
+                  sampAddChatMessage((tag..'Обнаружено обновление. Текущая версия:{d12155} '..thisScript().version..' {ababab}| Новая версия:{65c29e} '..updateversion), color)
                   wait(250)
                   downloadUrlToFile(updatelink, thisScript().path,
                     function(id3, status1, p13, p23)
                       if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                        print(string.format('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ %d пїЅпїЅ %d.', p13, p23))
+                        print(string.format('Загружено %d из %d.', p13, p23))
                       elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                                              print('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.')
-                                              sampAddChatMessage((tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!'), color)
+                                              print('Загрузка обновления завершена.')
+                                              sampAddChatMessage((tag..'Обновление завершено!'), color)
                         goupdatestatus = true
                         lua_thread.create(function() wait(500) thisScript():reload() end)
                       end
                       if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                         if goupdatestatus == nil then
-                          sampAddChatMessage((tag..'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ..'), color)
+                          sampAddChatMessage((tag..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
                           update = false
                         end
                       end
@@ -231,11 +231,11 @@ function autoupdate(json_url, tag, url)
                 )
               else
                 update = false
-                print('v'..thisScript().version..': пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.')
+                print('v'..thisScript().version..': Обновление не требуется.')
               end
             end
           else
-            print('v'..thisScript().version..': пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ '..url)
+            print('v'..thisScript().version..': Не могу проверить обновление. Попробуйте позже или проверьте наличие на '..url)
             update = false
           end
         end
