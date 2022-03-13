@@ -1,9 +1,8 @@
 ---@diagnostic disable: undefined-global, lowercase-global
---Обращение к s?x?? - Что такое Украина? Где это? Покажи на карте!
 
 script_name("Custom Logos")
 script_authors("neverlessy")
-script_version("0.5.2")
+script_version("0.5.3")
 
 local sampev = require 'samp.events'
 local imgui = require 'mimgui'
@@ -12,26 +11,15 @@ local inicfg = require 'inicfg'
 local wm = require("windows.message")
 
 local new = imgui.new
-local settingsWindow = new.bool()
-local arrayIndexer = 1
-local enableWarBool = new.bool()
-local enableLogoBool = new.bool(false)
-local enable = new.bool()
-local editPosition = new.bool(false)
 local sizeX, sizeY = getScreenResolution()
-local posX = new.int(1)
-local posY = new.int(1)
-local crop = new.float(1.0)
-local serverName
-local textdrawsIdsTemp = {}
-local textdrawsXTemp = {}
-local textdrawsYTemp = {}
-local warIds = {}
-local logo
-local style = 1
-local logoTransparrent = new.int(255)
-local ticksUpdate = new.int(1)
+local serverName, logo
 local tag = '{d12155}[Custom Logos]{ababab} '
+local arrayIndexer, style = 1, 1
+local posX, posY, crop, logoTransparrent, ticksUpdate = new.int(1), new.int(1), new.float(1.0), new.int(255), new.int(1)
+local settingsWindow, enableWarBool, enableLogoBool, editPosition, enable = new.bool(), new.bool(), new.bool(false), new.bool(false),  new.bool()
+local textdrawsIdsTemp, textdrawsXTemp, textdrawsYTemp, warIds = {}, {}, {}, {}
+local serverList = {"phoenix", "tucson", "scottdale", "chandler", "brainburg", "saintrose", "mesa", "red-rock", "yuma", "surprise", "prescott", "glendale", "kingman", "winslow", "payson", "gilbert", "show-low", "casa-grande", "page"}
+
 local mainIni = inicfg.load({
       settings =
       {
@@ -62,8 +50,8 @@ local settings = imgui.OnFrame(
     function(player)
         imgui.SetNextWindowPos(imgui.ImVec2(sizeX / 2, sizeY / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
         imgui.SetNextWindowSize(imgui.ImVec2(370, 200), imgui.Cond.FirstUseEver)
-        imgui.Begin("Кикнули с беседы за мои взгляды. ЛДНР и Россия победит в этой войне.", settingsWindow, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoTitleBar)
-        if imgui.Checkbox(u8'Включить скрипт', enable) then
+        imgui.Begin("РљРёРєРЅСѓР»Рё СЃ Р±РµСЃРµРґС‹ Р·Р° РјРѕРё РІР·РіР»СЏРґС‹. Р›Р”РќР  Рё Р РѕСЃСЃРёСЏ РїРѕР±РµРґРёС‚ РІ СЌС‚РѕР№ РІРѕР№РЅРµ.", settingsWindow, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoTitleBar)
+        if imgui.Checkbox(u8'Р’РєР»СЋС‡РёС‚СЊ СЃРєСЂРёРїС‚', enable) then
           if enable[0] then
             for i = 1, #textdrawsIdsTemp do
               sampTextdrawSetPos(textdrawsIdsTemp[i], 9999.1, 0)
@@ -73,16 +61,16 @@ local settings = imgui.OnFrame(
               sampTextdrawSetPos(textdrawsIdsTemp[i], textdrawsXTemp[i], textdrawsYTemp[i])
             end
           end
-        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение логотипа")
-        imgui.Checkbox(u8'Лицемерие от мира', enableWarBool) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Включает или отключает отображение флагов Страны, где правят нацисты и России. После включения необходимо переподключиться к серверу")
-        imgui.SliderInt(u8"Прозрачность", logoTransparrent, 0, 255) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Изменяет прозрачность логотипа")
-        imgui.SliderInt(u8"Рендер", ticksUpdate, 1, 30) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Задержка рендера логотипа. Чем больше Значение - тем выше производительность скрипта. Изменяйте значения до тех пор, пока число не будет максимальным, при это логотип не будет мерцать.")
-        imgui.SliderFloat(u8"Пропорции", crop, 0.1, 10.0) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Пропорциональное увеличение или понижение размера логотипа")
-        if imgui.Button(u8"Позиция", imgui.ImVec2(240, 30)) then
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Р’РєР»СЋС‡Р°РµС‚ РёР»Рё РѕС‚РєР»СЋС‡Р°РµС‚ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ Р»РѕРіРѕС‚РёРїР°")
+        imgui.Checkbox(u8'Р¤Р»Р°РіРё СЃС‚СЂР°РЅ', enableWarBool) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Р’РєР»СЋС‡Р°РµС‚ РёР»Рё РѕС‚РєР»СЋС‡Р°РµС‚ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ С„Р»Р°РіРѕРІ РЎС‚СЂР°РЅС‹, РіРґРµ РїСЂР°РІСЏС‚ РЅР°С†РёСЃС‚С‹ Рё Р РѕСЃСЃРёРё. РџРѕСЃР»Рµ РІРєР»СЋС‡РµРЅРёСЏ РЅРµРѕР±С…РѕРґРёРјРѕ РїРµСЂРµРїРѕРґРєР»СЋС‡РёС‚СЊСЃСЏ Рє СЃРµСЂРІРµСЂСѓ")
+        imgui.SliderInt(u8"РџСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ", logoTransparrent, 0, 255) imgui.SameLine() imgui.TextQuestion("( ? )", u8"РР·РјРµРЅСЏРµС‚ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ Р»РѕРіРѕС‚РёРїР°")
+        imgui.SliderInt(u8"Р РµРЅРґРµСЂ", ticksUpdate, 1, 30) imgui.SameLine() imgui.TextQuestion("( ? )", u8"Р—Р°РґРµСЂР¶РєР° СЂРµРЅРґРµСЂР° Р»РѕРіРѕС‚РёРїР°. Р§РµРј Р±РѕР»СЊС€Рµ Р—РЅР°С‡РµРЅРёРµ - С‚РµРј РІС‹С€Рµ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ СЃРєСЂРёРїС‚Р°. РР·РјРµРЅСЏР№С‚Рµ Р·РЅР°С‡РµРЅРёСЏ РґРѕ С‚РµС… РїРѕСЂ, РїРѕРєР° С‡РёСЃР»Рѕ РЅРµ Р±СѓРґРµС‚ РјР°РєСЃРёРјР°Р»СЊРЅС‹Рј, РїСЂРё СЌС‚Рѕ Р»РѕРіРѕС‚РёРї РЅРµ Р±СѓРґРµС‚ РјРµСЂС†Р°С‚СЊ.")
+        imgui.SliderFloat(u8"РџСЂРѕРїРѕСЂС†РёРё", crop, 0.1, 10.0) imgui.SameLine() imgui.TextQuestion("( ? )", u8"РџСЂРѕРїРѕСЂС†РёРѕРЅР°Р»СЊРЅРѕРµ СѓРІРµР»РёС‡РµРЅРёРµ РёР»Рё РїРѕРЅРёР¶РµРЅРёРµ СЂР°Р·РјРµСЂР° Р»РѕРіРѕС‚РёРїР°")
+        if imgui.Button(u8"РџРѕР·РёС†РёСЏ", imgui.ImVec2(240, 30)) then
             editPosition[0]= true
-            sampAddChatMessage(tag..'Чтобы сохранить позицию, нажмите {d12155}Пробел', -1)
-        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Изменяет позицию логотипа")
-        if imgui.Button(u8"Сохранить", imgui.ImVec2(240, 30)) then
+            sampAddChatMessage(tag..'Р§С‚РѕР±С‹ СЃРѕС…СЂР°РЅРёС‚СЊ РїРѕР·РёС†РёСЋ, РЅР°Р¶РјРёС‚Рµ {d12155}РџСЂРѕР±РµР»', -1)
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"РР·РјРµРЅСЏРµС‚ РїРѕР·РёС†РёСЋ Р»РѕРіРѕС‚РёРїР°")
+        if imgui.Button(u8"РЎРѕС…СЂР°РЅРёС‚СЊ", imgui.ImVec2(240, 30)) then
             iniMain.settings.posX = posX[0]
             iniMain.settings.posY = posY[0]
             iniMain.settings.crop = crop[0]
@@ -91,11 +79,11 @@ local settings = imgui.OnFrame(
             iniMain.settings.enableWarBool = enableWarBool[0]
             iniMain.settings.enable = enable[0]
            if inicfg.save(iniMain, iniDirectory) then
-                sampAddChatMessage(tag..'Настройки успешно {65c29e}сохранены', -1)
+                sampAddChatMessage(tag..'РќР°СЃС‚СЂРѕР№РєРё СѓСЃРїРµС€РЅРѕ {65c29e}СЃРѕС…СЂР°РЅРµРЅС‹', -1)
            else
-                sampAddChatMessage(tag..'При сохранении произошла {d12155}ошибка', -1)
+                sampAddChatMessage(tag..'РџСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё РїСЂРѕРёР·РѕС€Р»Р° {d12155}РѕС€РёР±РєР°', -1)
            end
-        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"Сохранить текущие настройки")
+        end imgui.SameLine() imgui.TextQuestion("( ? )", u8"РЎРѕС…СЂР°РЅРёС‚СЊ С‚РµРєСѓС‰РёРµ РЅР°СЃС‚СЂРѕР№РєРё")
         imgui.End()
         player.HideCursor = false
     end
@@ -104,8 +92,8 @@ local settings = imgui.OnFrame(
 function main()
     if not isSampfuncsLoaded() or not isSampLoaded() then return end
     while not isSampAvailable() do wait(0) end
-    sampAddChatMessage(tag..'Автор: {d12155}neverlessy', -1)
-    sampAddChatMessage(tag..'Текущая версия: {d12155}'..thisScript().version, -1)
+    sampAddChatMessage(tag..'РђРІС‚РѕСЂ: {d12155}neverlessy', -1)
+    sampAddChatMessage(tag..'РўРµРєСѓС‰Р°СЏ РІРµСЂСЃРёСЏ: {d12155}'..thisScript().version, -1)
     autoupdate("https://raw.githubusercontent.com/neverlessy/custom-logos/master/autoupdate.json", '['..string.upper(thisScript().name)..']: ', "https://www.blast.hk/threads/60462/")
     sampRegisterChatCommand('logo', function()
         settingsWindow[0] = not settingsWindow[0]
@@ -118,19 +106,13 @@ function main()
     enableWarBool[0] = iniMain.settings.enableWarBool
     enable[0] = iniMain.settings.enable
     while not sampIsPlayerConnected() do wait(0) end
-    if sampGetCurrentServerName():match("Arizona RP | (%u%w+-%w+)") then
-        serverName = string.lower(sampGetCurrentServerName():match("Arizona RP | (%u%w+-%w+)"))
+    for i = 1, 19 do
+      if string.lower(sampGetCurrentServerName()):match(serverList[i]) then
+        serverName = serverList[i]
         logo = renderLoadTextureFromFile(getWorkingDirectory().."/resource/CustomLogos/img/"..style.."/"..serverName..".png")
-        sampAddChatMessage(tag..'Устанавливаю логотип сервера{d12155} '..sampGetCurrentServerName():match("Arizona RP | (%u%w+-%w+)"), -1)
         enable[0] = true
-    elseif sampGetCurrentServerName():match("Arizona RP | (%u%w+)") then
-        serverName = string.lower(sampGetCurrentServerName():match("Arizona RP | (%u%w+)"))
-        logo = renderLoadTextureFromFile(getWorkingDirectory().."/resource/CustomLogos/img/"..style.."/"..serverName..".png")
-        sampAddChatMessage(tag..'Устанавливаю логотип сервера{d12155} '..sampGetCurrentServerName():match("Arizona RP | (%u%w+)"), -1)
-        enable[0] = true
-    else
-        unloadScript("Сервер не поддерживается")
-        enable[0] = false
+        sampAddChatMessage(tag..'РЈСЃС‚Р°РЅР°РІР»РёРІР°СЋ Р»РѕРіРѕС‚РёРї СЃРµСЂРІРµСЂР°{d12155} '..string.upper(serverList[i]), -1)
+      end
     end
     downloadImage()
     addEventHandler("onWindowMessage", function(msg, wparam, lparam)
@@ -152,7 +134,7 @@ function main()
                     editPosition[0] = false
                     posX[0] = posX[0] - (180 * crop[0])
                     posY[0] = posY[0] - (60 * crop[0])
-                    sampAddChatMessage(tag..'Позиция успешно {65c29e}сохранена', -1)
+                    sampAddChatMessage(tag..'РџРѕР·РёС†РёСЏ СѓСЃРїРµС€РЅРѕ {65c29e}СЃРѕС…СЂР°РЅРµРЅР°', -1)
                 end
             else
                 renderDrawTexture(logo, posX[0], posY[0], 360.0 * crop[0], 105.0 * crop[0], 0, string.format("0x%xFFFFFF", logoTransparrent[0]))
@@ -183,7 +165,7 @@ end
 
 function unloadScript(reason)
     if reason ~= nil then
-        sampAddChatMessage(tag..'Скрипт завершил свою работу по причине:{d12155} '..reason, -1)
+        sampAddChatMessage(tag..'РЎРєСЂРёРїС‚ Р·Р°РІРµСЂС€РёР» СЃРІРѕСЋ СЂР°Р±РѕС‚Сѓ РїРѕ РїСЂРёС‡РёРЅРµ:{d12155} '..reason, -1)
         thisScript():unload()
     end
 end
@@ -199,8 +181,8 @@ function download_handler(id, status, p1, p2)
     if stop_downloading then
       stop_downloading = false
       download_id = nil
-      print('Загрузка отменена.')
-      sampAddChatMessage(tag..'Загрузка{d12155} отменена' -1)
+      print('Р—Р°РіСЂСѓР·РєР° РѕС‚РјРµРЅРµРЅР°.')
+      sampAddChatMessage(tag..'Р—Р°РіСЂСѓР·РєР°{d12155} РѕС‚РјРµРЅРµРЅР°' -1)
       return false
     end
 end
@@ -225,21 +207,21 @@ function autoupdate(json_url, tag, url)
                 lua_thread.create(function(tag)
                   local dlstatus = require('moonloader').download_status
                   local color = -1
-                  sampAddChatMessage((tag..'Обнаружено обновление. Текущая версия:{d12155} '..thisScript().version..' {ababab}| Новая версия:{65c29e} '..updateversion), color)
+                  sampAddChatMessage((tag..'РћР±РЅР°СЂСѓР¶РµРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ. РўРµРєСѓС‰Р°СЏ РІРµСЂСЃРёСЏ:{d12155} '..thisScript().version..' {ababab}| РќРѕРІР°СЏ РІРµСЂСЃРёСЏ:{65c29e} '..updateversion), color)
                   wait(250)
                   downloadUrlToFile(updatelink, thisScript().path,
                     function(id3, status1, p13, p23)
                       if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                        print(string.format('Загружено %d из %d.', p13, p23))
+                        print(string.format('Р—Р°РіСЂСѓР¶РµРЅРѕ %d РёР· %d.', p13, p23))
                       elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                                              print('Загрузка обновления завершена.')
-                                              sampAddChatMessage((tag..'Обновление завершено!'), color)
+                                              print('Р—Р°РіСЂСѓР·РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ Р·Р°РІРµСЂС€РµРЅР°.')
+                                              sampAddChatMessage((tag..'РћР±РЅРѕРІР»РµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ!'), color)
                         goupdatestatus = true
                         lua_thread.create(function() wait(500) thisScript():reload() end)
                       end
                       if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                         if goupdatestatus == nil then
-                          sampAddChatMessage((tag..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                          sampAddChatMessage((tag..'РћР±РЅРѕРІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ РЅРµСѓРґР°С‡РЅРѕ. Р—Р°РїСѓСЃРєР°СЋ СѓСЃС‚Р°СЂРµРІС€СѓСЋ РІРµСЂСЃРёСЋ..'), color)
                           update = false
                         end
                       end
@@ -249,11 +231,11 @@ function autoupdate(json_url, tag, url)
                 )
               else
                 update = false
-                print('v'..thisScript().version..': Обновление не требуется.')
+                print('v'..thisScript().version..': РћР±РЅРѕРІР»РµРЅРёРµ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.')
               end
             end
           else
-            print('v'..thisScript().version..': Не могу проверить обновление. Попробуйте позже или проверьте наличие на '..url)
+            print('v'..thisScript().version..': РќРµ РјРѕРіСѓ РїСЂРѕРІРµСЂРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РїРѕР·Р¶Рµ РёР»Рё РїСЂРѕРІРµСЂСЊС‚Рµ РЅР°Р»РёС‡РёРµ РЅР° '..url)
             update = false
           end
         end
